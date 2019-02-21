@@ -13,15 +13,18 @@ export default new Vuex.Store({
     player1: '',
     player2: '',
     point1: 0,
-    point2: 0
+    point2: 0,
+    username: null
   },
   mutations: {
     createNewRoom (state, payload) {
       state.roomId = payload.id
       state.statusRoom = payload.statusRoom
       state.player1 = payload.player1
+    },
+    register (state, name) {
+      state.username = name
     }
-
   },
   actions: {
     createNewRoom ({ commit }, room) {
@@ -45,6 +48,12 @@ export default new Vuex.Store({
         .catch(function (err) {
           swal('Oops!', err, 'error')
         })
+    },
+    register ({ commit }, name) {
+      if (name) {
+        localStorage.setItem('username', name)
+        commit('register', name)
+      }
     }
   }
 })
