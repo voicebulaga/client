@@ -1,21 +1,33 @@
 <template>
   <div class="home">
     <newRoom/>
-    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <register v-if="!username"/>
+    <waiting />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import newRoom from '@/components/formNewRoom.vue'
+import register from '@/components/register.vue'
+import { mapState } from 'vuex'
+import waiting from '@/components/waiting.vue'
 
 export default {
   name: 'home',
   components: {
-    HelloWorld,
-    newRoom
-  }
+    newRoom,
+    register,
+    waiting
+  },
+  created () {
+    if (!localStorage.username) {
+      this.$store.dispatch('register', null)
+    } else {
+      this.$store.dispatch('register', localStorage.username)
+    }
+  },
+  computed: mapState([
+      'username'
+  ]),
 }
 </script>
