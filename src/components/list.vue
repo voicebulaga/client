@@ -1,5 +1,5 @@
 <template>
-    <b-card-group columns class="mx-3 my-3">
+    <b-card-group columns class="mx-4 mt-5">
         <b-card  v-for="room in rooms" :key="room.id"  :header="room.title" text-variant="white" class="text-center rooms">
             <b-card-text>
                 <div class="row">
@@ -28,7 +28,7 @@
 
 <script>
 import { mapState } from 'vuex'
-
+import song from '@/assets/lobby.mp3'
 export default {
   name: 'list',
   computed: {
@@ -39,6 +39,10 @@ export default {
       this.$store.dispatch('joinRoomAct', room.id)
       this.$router.push({ name: 'room', params: { id: room.id } })
     }
+  },
+  created () {
+    let audio = new Audio(song)
+    //   audio.play()
   }
 }
 </script>

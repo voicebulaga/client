@@ -49,7 +49,7 @@ export default new Vuex.Store({
   },
   actions: {
     createNewRoom ({ commit, dispatch }, room) {
-      // console.log(room);
+      // console.log(room)
       let res = {
         title: room.roomName,
         player1: localStorage.getItem('username'),
@@ -107,20 +107,24 @@ export default new Vuex.Store({
           if (roomData.player2) {
             console.log('sudah ada player', roomData.player2)
           } else if (!roomData.player2) {
-            console.log('belum ada player', roomData.player2)
-            db.collection('rooms')
-              .doc(roomId)
-              .update({
-                player2: localStorage.getItem('username'),
-                statusRoom: true
-              })
-              .then(() => {
-                console.log('MADSUK')
-                dispatch('getOneRoom', roomId)
-                commit('setPlayer2', localStorage.username)
-              })
-            if (roomData.statusRoom) {
-              alert('roomFull')
+            if (localStorage.username !== roomData.player1) {
+              console.log('belum ada player', roomData.player2)
+              db.collection('rooms')
+                .doc(roomId)
+                .update({
+                  player2: localStorage.getItem('username'),
+                  statusRoom: true
+                })
+                .then(() => {
+                  console.log('MADSUK')
+                  dispatch('getOneRoom', roomId)
+                  commit('setPlayer2', localStorage.username)
+                })
+              if (roomData.statusRoom) {
+                alert('roomFull')
+              }
+            } else {
+              router.push({ name: 'room', params: { id: roomId } })
             }
           }
         })
@@ -155,7 +159,20 @@ export default new Vuex.Store({
       commit('getQuestions', allQuestions)
     },
     logout ({ commit }) {
+      var que = db.collection('rooms').where('player1', '==', localStorage.username)
+      var que2 = db.collection('rooms').where('player2', '==', localStorage.username)
+      que.get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          doc.ref.delete()
+        })
+      })
+      que2.get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          doc.ref.delete()
+        })
+      })
       localStorage.removeItem('username')
+      alertify.message(`Bye.. 😢😢`)
       commit('logout')
     }
   }

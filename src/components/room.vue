@@ -51,7 +51,7 @@ export default {
       recognition.onspeechend = function () {
         recognition.stop()
       }
-    },
+    }
   },
   created () {
     this.$store.dispatch('getQuestions')
@@ -60,11 +60,11 @@ export default {
     console.log(this.player2, '================')
   },
   watch: {
-      'route' (val) {
-        this.$store.dispatch('getOneRoom', this.$route.params.id)
-      }
+    'route' (val) {
+      this.$store.dispatch('getOneRoom', this.$route.params.id)
+    }
   },
-  computed: mapState(['player1', 'player2', 'point1', 'point2', 'roomId','questions'])
+  computed: mapState(['player1', 'player2', 'point1', 'point2', 'roomId', 'questions'])
 }
 </script>
 
