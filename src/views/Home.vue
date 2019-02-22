@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="home vh-100" id="roomList">
     <div v-if="username">
       <newRoom/>
@@ -9,6 +10,12 @@
     <div v-else>
       <register/>
     </div>
+=======
+  <div class="home">
+    <newRoom/>
+    <register v-if="!username"/>
+    <waiting v-if="username"/>
+>>>>>>> room
   </div>
 </template>
 
