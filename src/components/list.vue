@@ -34,12 +34,9 @@ export default {
   },
   methods: {
     join (room) {
-      console.log(id, 'ini id roomnya!!!!!!!!!!!!!!!!!!!!!')
+      console.log(room.id, 'ini id roomnya!!!!!!!!!!!!!!!!!!!!!')
       this.$store.dispatch('joinRoomAct', room.id)
-      //   if (room) {
-
-      //   }
-      this.$router.push({ name: 'room', params: { id } })
+      this.$router.push({ name: 'room', params: { id: room.id } })
     }
   }
 }
