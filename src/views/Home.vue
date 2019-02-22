@@ -13,17 +13,14 @@
 <script>
 import newRoom from '@/components/formNewRoom.vue'
 import register from '@/components/register.vue'
-import room from '@/components/room.vue'
 import RoomList from '@/components/list.vue'
 import { mapState } from 'vuex'
-import db from '@/script/config.js'
 
 export default {
   name: 'home',
   components: {
     newRoom,
     register,
-    room,
     RoomList
   },
   created () {
