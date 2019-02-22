@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import db from './script/config'
+import db from './script/config'
 import swal from 'sweetalert'
-import db from "@/script/config.js";
+import router from '@/router.js'
 
 Vue.use(Vuex)
 
@@ -10,7 +10,7 @@ export default new Vuex.Store({
   state: {
     rooms: [],
     roomId: '',
-    question: '',
+    questions: '',
     player1: '',
     player2: '',
     point1: 0,
@@ -19,12 +19,12 @@ export default new Vuex.Store({
     statursRoom: false
   },
   mutations: {
-    createNewRoom(state, payload) {
+    createNewRoom (state, payload) {
       state.roomId = payload.id
       state.statusRoom = payload.statusRoom
       state.player1 = payload.player1
     },
-    register(state, name) {
+    register (state, name) {
       state.username = name
     },
     getRoomsMut (state, data) {
@@ -32,10 +32,14 @@ export default new Vuex.Store({
     },
     setPlayer2 (state, player2) {
       state.player2 = player2
+    },
+    getQuestions (state, payload) {
+      state.questions = payload
     }
   },
   actions: {
-    createNewRoom ({ commit }, room) {
+    createNewRoom ({ commit, dispatch }, room) {
+      // console.log(room);
       let res = {
         title: room.roomName,
         player1: localStorage.getItem('username'),
@@ -48,6 +52,8 @@ export default new Vuex.Store({
 
       db.collection('rooms').add(res)
         .then(function (docRef) {
+          console.log(docRef.id, `--- docRef.id`)
+          router.push({ name: 'room', params: { id: docRef.id } })
           commit('createNewRoom', {
             id: docRef.id,
             statusRoom: res.statusRoom,
@@ -55,7 +61,8 @@ export default new Vuex.Store({
           })
         })
         .catch(function (err) {
-          swal('Oops!', err, 'error')
+          console.log(err)
+          // swal('Oops!', err, 'error')
         })
     },
     register ({ commit, dispatch }, name) {
@@ -71,12 +78,11 @@ export default new Vuex.Store({
         querySnapshot.forEach(doc => {
           rooms.push({ id: doc.id, ...doc.data() })
         })
-        console.log(rooms)
         context.commit('getRoomsMut', rooms)
       })
     },
     getOneRoom ({ commit }, id) {
-    
+
     },
     joinRoomAct ({ commit }, roomId) {
       db
@@ -104,25 +110,34 @@ export default new Vuex.Store({
           }
         })
     },
-    pluspoint({commit}, roomId){
+    pluspoint ({ commit }, roomId) {
       let self = this.state
-      if(localStorage.getItem('username') === self.player2){
+      if (localStorage.getItem('username') === self.player2) {
         console.log('selfplayer2', self.player2)
         self.point2 += 20
         db.collection('rooms').doc(roomId)
           .update({
             point2: self.point2,
             ques: self.ques + 1
-        })
+          })
       } else {
         console.log('selfplayer1')
         self.point1 += 20
         db.collection('rooms').doc(roomId)
-        .update({
-          point1: self.point1,
-          ques: self.ques + 1
-        })
+          .update({
+            point1: self.point1,
+            ques: self.ques + 1
+          })
       }
     },
+    getQuestions ({ commit }) {
+      let allQuestions = []
+      db.collection('questions').onSnapshot(snapshot => {
+        snapshot.forEach(data => {
+          allQuestions.push(data.data())
+        })
+      })
+      commit('getQuestions', allQuestions)
+    }
   }
 })
