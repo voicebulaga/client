@@ -1,26 +1,48 @@
 <template>
   <div class="game-room">
     <waiting v-if="!player2"/>
-    <div class="searchbar container" v-else>
-      <input
-        v-model="answer"
-        class="search_input form-control"
-        value
-        type="text"
-        name
-        placeholder="Search..."
-        id="searchTitle"
-      >
-      <button type="button" class="btn btn-secondary">
-        <i class="fas fa-check-circle"></i>
-      </button>
-      <button @click.prevent="record" type="button" class="btn btn-secondary">
-        <i class="fas fa-microphone"></i>
-      </button>
 
+    <div v-else>
+      <div class="mx-auto text-center">
+        <br>
+        <br>
+        <h1>{{ questions[ques].question }}</h1>
+        <div no-body class="overflow-hidden mx-auto" style="max-width: 500px;">
+          <b-card-img :src="questions[ques].image" class="rounded-0"/>
+        </div>
+      </div>
+      <br>
+      <br>
+
+      <center>
+          <div>
+          <div class="searchbar container" style="max-width: 30%; display:inline-block;">
+          <input
+            v-model="answer"
+            class="search_input form-control"
+            value
+            type="text"
+            name
+            placeholder="Input text.."
+            id="searchTitle"
+          >
+          </div>
+          <button type="button" class="btn btn-secondary" style="border-radius: 40%">
+            <i class="fas fa-check-circle"></i>
+          </button>
+        </div>
+      </center>
+      <br>
+      <center><button
+          @click.prevent="record"
+          type="button"
+          class="btn btn-secondary"
+          style="border-radius: 40%;"
+        >
+          <img src="https://img.icons8.com/cotton/40/000000/micro.png">
+        </button>
+      </center>
     </div>
-
-    <div>{{questions}}</div>
   </div>
 </template>
 
@@ -41,10 +63,11 @@ export default {
   },
   methods: {
     record () {
-      window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition
+      window.SpeechRecognition =
+        window.webkitSpeechRecognition || window.SpeechRecognition
       const recognition = new SpeechRecognition()
       recognition.start()
-      recognition.onresult = (event) => {
+      recognition.onresult = event => {
         const speechToText = event.results[0][0].transcript
         this.answer = speechToText
       }
@@ -60,14 +83,21 @@ export default {
     console.log(this.player2, '================')
   },
   watch: {
-    'route' (val) {
+    route (val) {
       this.$store.dispatch('getOneRoom', this.$route.params.id)
     }
   },
-  computed: mapState(['player1', 'player2', 'point1', 'point2', 'roomId', 'questions'])
+  computed: mapState([
+    'player1',
+    'player2',
+    'point1',
+    'point2',
+    'roomId',
+    'questions',
+    'ques'
+  ])
 }
 </script>
 
 <style>
-
 </style>
