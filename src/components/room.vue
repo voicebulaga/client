@@ -83,50 +83,62 @@ export default {
       };
     },
     addPointAndCheckWinner() {
-      console.log(this.questions[this.ques].answer);
       //kalo ques-nya udah 10, cek siapa pemenangnya abis itu delete roomnya
-      if (this.ques == 10) {
+      if (this.ques == this.questions.length - 1) {
         if (localStorage.getItem('username') === this.player1) {
           if (this.point1 > this.point2) {
-            console.log(this.player1, " won the gayme");
             alertify.message(`Congratulations ${localStorage.getItem('username')} you won the game`)
+          } else if (this.point1 === this.poin2) {
+            alertify.message(`DRAW!`)
           } else {
-            console.log(this.player2, " loseeee");
             alertify.message(`Sorry ${localStorage.getItem('username')} you lose. You can try it again anytime!`)
           }
         } else {
           if (this.point1 < this.point2) {
-            console.log(this.player2, " won the gayme");
             alertify.message(`Congratulations ${localStorage.getItem('username')} you won the game`)
+          } else if (this.point1 === this.poin2) {
+            alertify.message(`DRAW!`)
           } else {
-            console.log(this.player1, " loseeee",);
             alertify.message(`Sorry ${localStorage.getItem('username')} you lose. You can try it again anytime!`)
           }          
         }
-        this.$store.dispatch("deleteRoom", this.$route.params.id);
+        this.answer = ''
+        this.$store.dispatch("pluspoint", this.$route.params.id);
       } else {
-        if (this.questions[this.ques].answer === this.answer) {
-          this.$store.dispatch(this.$route.params.id);
+        if (this.questions[this.ques].answer.toLowerCase() === this.answer.toLowerCase()) {
+          this.$store.dispatch("pluspoint", this.$route.params.id);
           alertify.message('Great!')
         } else {
-          let nextQues = this.ques + 1;
-          this.$store.commit("getQues", nextQues);
-          alertify.message('Thank you, next!')
+          alertify.message('You are wrong, please try another anwer!')
         }
+        this.answer = ''
       }
     }
   },
   created() {
     this.$store.dispatch("getQuestions");
-    console.log(`this.question....`, this.question);
+    console.log(`this.question....`, this.questions);
     this.$store.dispatch("getOneRoom", this.$route.params.id);
     console.log(this.player2, "================");
   },
   watch: {
-    route(val) {
+    '$route'(val) {
       this.$store.dispatch("getOneRoom", this.$route.params.id);
+    },
+    player2 (val) {
+      return val
+    },
+    ques (val) {
+      if (val == 2) {
+        this.$store.commit('setFinal')
+      }
+    },
+    final (val) {
+      if (val == true) {
+        this.$store.dispatch("deleteRoom", this.$route.params.id);
+      }
     }
-  },
+  }, 
   computed: mapState([
     "player1",
     "player2",
@@ -134,7 +146,8 @@ export default {
     "point2",
     "roomId",
     "questions",
-    "ques"
+    "ques",
+    'final'
   ])
 };
 </script>

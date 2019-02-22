@@ -42,7 +42,7 @@ export default {
   },
   created () {
     let audio = new Audio(song)
-    //   audio.play()
+      audio.play()
   }
 }
 </script>
