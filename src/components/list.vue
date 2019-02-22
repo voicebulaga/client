@@ -11,8 +11,10 @@
                         {{ room.player1 }} <br>
                         {{ room.player2 }}
                     </b-card-text>
-                    <button class="btn btn-primary">Join</button>
-                    <!-- <button class="btn btn-secondary">Join</button> -->
+                    <button v-if="!room.statusRoom || !room.player2" @click.prevent="join(room)" class="btn btn-primary">Join</button>
+                    <div v-else>
+                        room full
+                    </div>
                 </b-card>
             </b-card-group>
         </div>
@@ -24,10 +26,21 @@
 import { mapState } from 'vuex'
 
 export default {
+  name: 'list',
   computed: {
     ...mapState([
       'rooms'
     ])
+  },
+  methods: {
+    join (room) {
+      console.log(id, 'ini id roomnya!!!!!!!!!!!!!!!!!!!!!')
+      this.$store.dispatch('joinRoomAct', room.id)
+      //   if (room) {
+
+      //   }
+      this.$router.push({ name: 'room', params: { id } })
+    }
   }
 }
 </script>
