@@ -6,25 +6,23 @@
 </template>
 
 <script>
-    import RoomList from '@/components/list.vue'
-    import db from '@/script/config.js'
-    // import { mapState } from 'vuex';
+import RoomList from '@/components/list.vue'
+import db from '@/script/config.js'
+// import { mapState } from 'vuex';
 
-    export default {
-        created() {
-            this.$store.dispatch('getRoomsAct')
-        },
-        computed: {
+export default {
+  created () {
+    this.$store.dispatch('getRoomsAct')
+  },
+  computed: {
 
-        },
-        components: {
-            RoomList
-        }
-    }
+  },
+  components: {
+    RoomList
+  }
+}
 </script>
 
 <style>
 
 </style>
-
-

@@ -22,19 +22,19 @@ import alertify from 'alertifyjs'
 export default {
   name: 'register',
   data () {
-      return {
-          name: ''
-      }
+    return {
+      name: ''
+    }
   },
   methods: {
-      regis () {
-          if (this.name === '') {
-              alertify.error('Please fill your name')
-          } else {
-              this.$store.dispatch('register', this.name)
-              this.name = ''
-          }
+    regis () {
+      if (this.name === '') {
+        alertify.error('Please fill your name')
+      } else {
+        this.$store.dispatch('register', this.name)
+        this.name = ''
       }
+    }
   }
 }
 </script>

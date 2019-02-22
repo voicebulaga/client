@@ -27,14 +27,6 @@ export default new Router({
   ]
 })
 
-
-
-
-
-
-
-
-
 //   routes: [
 //     {
 //       path: '/',
