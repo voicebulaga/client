@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+<<<<<<< HEAD
 import db from './script/config'
 import swal from 'sweetalert'
+=======
+import db from "@/script/config.js";
+>>>>>>> rooms
 
 Vue.use(Vuex)
 
@@ -13,6 +17,7 @@ export default new Vuex.Store({
     player1: '',
     player2: '',
     point1: 0,
+<<<<<<< HEAD
     point2: 0,
     username: null
   },
@@ -54,6 +59,25 @@ export default new Vuex.Store({
         localStorage.setItem('username', name)
         commit('register', name)
       }
+=======
+    point2: 0
+  },
+  mutations: {
+    getRoomsMut(state, data) {
+      state.rooms = data
+    }
+  },
+  actions: {
+    getRoomsAct(context) {
+      db.collection("rooms").onSnapshot(querySnapshot => {
+        let rooms = []
+        querySnapshot.forEach(doc => {
+          rooms.push({id: doc.id, ...doc.data()})
+        });
+        console.log(rooms)
+        context.commit('getRoomsMut', rooms)
+      });
+>>>>>>> rooms
     }
   }
 })
