@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import db from './script/config'
+// import db from './script/config'
 import swal from 'sweetalert'
+import db from "@/script/config.js";
 
 Vue.use(Vuex)
 
@@ -15,15 +16,15 @@ export default new Vuex.Store({
     point1: 0,
     point2: 0,
     username: null,
-    foo: ''
+    statursRoom: false
   },
   mutations: {
-    createNewRoom (state, payload) {
+    createNewRoom(state, payload) {
       state.roomId = payload.id
       state.statusRoom = payload.statusRoom
       state.player1 = payload.player1
     },
-    register (state, name) {
+    register(state, name) {
       state.username = name
     },
     getRoomsMut (state, data) {
@@ -41,8 +42,10 @@ export default new Vuex.Store({
         player2: room.player2,
         statusRoom: room.statusRoom,
         point1: room.point1,
-        point2: room.point2
+        point2: room.point2,
+        ques: 0
       }
+
       db.collection('rooms').add(res)
         .then(function (docRef) {
           commit('createNewRoom', {
@@ -73,6 +76,7 @@ export default new Vuex.Store({
       })
     },
     getOneRoom ({ commit }, id) {
+    
     },
     joinRoomAct ({ commit }, roomId) {
       db
@@ -99,6 +103,26 @@ export default new Vuex.Store({
             }
           }
         })
-    }
+    },
+    pluspoint({commit}, roomId){
+      let self = this.state
+      if(localStorage.getItem('username') === self.player2){
+        console.log('selfplayer2', self.player2)
+        self.point2 += 20
+        db.collection('rooms').doc(roomId)
+          .update({
+            point2: self.point2,
+            ques: self.ques + 1
+        })
+      } else {
+        console.log('selfplayer1')
+        self.point1 += 20
+        db.collection('rooms').doc(roomId)
+        .update({
+          point1: self.point1,
+          ques: self.ques + 1
+        })
+      }
+    },
   }
 })

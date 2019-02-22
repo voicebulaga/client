@@ -1,11 +1,16 @@
 <template>
   <div class="home vh-100" id="roomList">
-    <div v-if="username">
+      <div v-if="username">
+        <newRoom/>
+        <RoomList></RoomList>
+      </div>
+      <div v-else>
+        <register/>
+      </div>
+    <div class="home">
       <newRoom/>
-      <RoomList></RoomList>
-    </div>
-    <div v-else>
-      <register/>
+      <register v-if="!username"/>
+      <waiting v-if="username"/>
     </div>
   </div>
 </template>
