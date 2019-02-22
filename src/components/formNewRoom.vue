@@ -47,9 +47,7 @@ export default {
       }
     },
     createRoom: function (val) {
-      console.log(this, `-------- create room`)
       this.$store.dispatch('createNewRoom', { ...this })
-
       // clear roomName and close modal
       this.clearName()
       this.$nextTick(() => {
