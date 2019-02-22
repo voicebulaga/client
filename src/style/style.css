@@ -1,6 +1,6 @@
 .register {
     background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
 }
 
@@ -13,7 +13,7 @@
 }
 
 .waiting {
-    height: 100vh;
+    min-height: 100vh;
 }
 #roomList {
     background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%) !important;
@@ -21,9 +21,19 @@
 
 .game-room {
     background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .btn {
     color: black;
+}
+.rooms {
+    background-color: rgba(0,0,0,0.5) !important;
+}
+.player-avatar {
+    height: 5vh;
+    width: 4vw;
+}
+.player-name {
+    font-family: 'Karla', sans-serif;
 }

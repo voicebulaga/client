@@ -31,7 +31,7 @@ export default {
     room,
     RoomList
   },
-  mounted () {
+  created () {
     if (!localStorage.username) {
       this.$store.dispatch('register', null)
     } else {

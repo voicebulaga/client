@@ -1,37 +1,32 @@
 <template>
-  <div>
-    <div class="d-flex justify-content-center">
-      <b-card-group deck v-for="room in rooms" :key="room.id" class="mx-3 my-3">
-        <b-card bg-variant="dark" :header="room.title" text-variant="white" class="text-center">
-          <b-card-text>
-            <img
-              src="https://img.icons8.com/color/48/000000/voice-recognition-scan.png"
-              height="100px"
-              alt
-            >
-            <br>
-            <button class="btn plyr">Player 1</button>
-            <button class="btn">Player 2</button>
-            <br>Player list:
-            <br>
-            {{ room.player1 }}
-            <br>
-            {{ room.player2 }}
-          </b-card-text>
-          <button
-            v-if="!room.statusRoom || !room.player2"
-            @click.prevent="join(room)"
-            class="btn btn-primary"
-          >Join</button>
-          <div v-else>room full</div>
+    <b-card-group columns class="mx-3 my-3">
+        <b-card  v-for="room in rooms" :key="room.id"  :header="room.title" text-variant="white" class="text-center rooms">
+            <b-card-text>
+                <div class="row">
+                    <div class="col">
+                        <h4 class="player-name">
+                            {{ room.player1 }}
+                        </h4>
+                    </div>
+                    <div class="col">
+                        <img class="player-avatar" src="../assets/vs.png">
+                    </div>
+                    <div class="col">
+                        <h4 class="player-name">
+                            {{ room.player2 }}
+                        </h4>
+                    </div>
+                </div>
+            </b-card-text>
+            <button v-if="!room.statusRoom || room.player2 == ''" @click.prevent="join(room)" class="btn btn-secondary">Join</button>
+            <div v-else-if="room.player2">
+                room full...
+            </div>
         </b-card>
-      </b-card-group>
-    </div>
-  </div>
+    </b-card-group>
 </template>
 
 <script>
-// import db from '@/script/config.js'
 import { mapState } from 'vuex'
 
 export default {
@@ -41,7 +36,6 @@ export default {
   },
   methods: {
     join (room) {
-      console.log(room.id, 'ini id roomnya!!!!!!!!!!!!!!!!!!!!!')
       this.$store.dispatch('joinRoomAct', room.id)
       this.$router.push({ name: 'room', params: { id: room.id } })
     }
@@ -50,7 +44,4 @@ export default {
 </script>
 
 <style>
-.btn {
-  color: #64e94f;
-}
 </style>

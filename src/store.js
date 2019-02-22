@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import db from './script/config'
-import swal from 'sweetalert'
+// import swal from 'sweetalert'
 import router from '@/router.js'
 
 Vue.use(Vuex)
@@ -12,7 +12,7 @@ export default new Vuex.Store({
     roomId: '',
     questions: '',
     player1: '',
-    player2: '',
+    player2: null,
     point1: 0,
     point2: 0,
     username: null,
@@ -35,6 +35,12 @@ export default new Vuex.Store({
     },
     getQuestions (state, payload) {
       state.questions = payload
+    },
+    mutateAddUser (state, data) {
+      state.player1 = data.player1
+      state.player2 = data.player2
+      state.point1 = data.point1
+      state.point2 = data.point2
     }
   },
   actions: {
@@ -82,9 +88,13 @@ export default new Vuex.Store({
       })
     },
     getOneRoom ({ commit }, id) {
-
+      db.collection('rooms').doc(id)
+        .onSnapshot(data => {
+          let datum = data.data()
+          commit('mutateAddUser', datum)
+        })
     },
-    joinRoomAct ({ commit }, roomId) {
+    joinRoomAct ({ commit, dispatch }, roomId) {
       db
         .collection('rooms')
         .doc(roomId)
@@ -102,6 +112,7 @@ export default new Vuex.Store({
               })
               .then(() => {
                 console.log('MADSUK')
+                dispatch('getOneRoom', roomId)
                 commit('setPlayer2', localStorage.username)
               })
             if (roomData.statusRoom) {
