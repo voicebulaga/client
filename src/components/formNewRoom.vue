@@ -1,12 +1,13 @@
 <template>
-  <div>
-    <b-button v-b-modal.modalPrevent>Create Room</b-button>
+  <div class="button-create">
+    <b-button @click.prevent="logout" class="button-modal-create float-right mt-3 mr-4 btn-secondary" >Logout</b-button>
+    <b-button class="button-modal-create float-right mt-3 mr-4 btn-info" v-b-modal.modalPrevent>Create Room</b-button>
 
     <!-- Modal Component -->
     <b-modal
       id="modalPrevent"
       ref="modal"
-      title="Submit Room Name"
+      title="Room Name"
       @ok="handleOk"
       @shown="clearName"
     >
@@ -53,6 +54,9 @@ export default {
       this.$nextTick(() => {
         this.$refs.modal.hide()
       })
+    },
+    logout () {
+      this.$store.dispatch('logout')
     }
   }
 }
