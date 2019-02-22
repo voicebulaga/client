@@ -17,7 +17,8 @@ export default new Vuex.Store({
     point1: 0,
     point2: 0,
     username: null,
-    statursRoom: false
+    statursRoom: false,
+    ques: 0
   },
   mutations: {
     createNewRoom (state, payload) {
@@ -133,20 +134,24 @@ export default new Vuex.Store({
       let self = this.state
       if (localStorage.getItem('username') === self.player2) {
         console.log('selfplayer2', self.player2)
+        let ques = self.ques + 1
         self.point2 += 20
         db.collection('rooms').doc(roomId)
           .update({
             point2: self.point2,
-            ques: self.ques + 1
+            ques: ques
           })
+        commit('getQues', ques)
       } else {
         console.log('selfplayer1')
+        let ques = self.ques + 1
         self.point1 += 20
         db.collection('rooms').doc(roomId)
           .update({
             point1: self.point1,
-            ques: self.ques + 1
+            ques: ques
           })
+        commit('getQues', ques)
       }
     },
     getQuestions ({ commit }) {
