@@ -17,6 +17,7 @@
       <button @click.prevent="record" type="button" class="btn btn-secondary">
         <i class="fas fa-microphone"></i>
       </button>
+
     </div>
 
     <div>{{questions}}</div>
@@ -51,18 +52,19 @@ export default {
         recognition.stop()
       }
     },
-    generateQuestion () {
-
-    }
   },
   created () {
-    return this.$store.dispatch('getQuestions')
-    this.generateQuestion()
+    this.$store.dispatch('getQuestions')
     console.log(`this.question....`, this.question)
+    this.$store.dispatch('getOneRoom', this.$route.params.id)
+    console.log(this.player2, '================')
   },
-  computed: {
-    ...mapState(['player1', 'player2', 'point1', 'point2', 'questions'])
-  }
+  watch: {
+      'route' (val) {
+        this.$store.dispatch('getOneRoom', this.$route.params.id)
+      }
+  },
+  computed: mapState(['player1', 'player2', 'point1', 'point2', 'roomId','questions'])
 }
 </script>
 
