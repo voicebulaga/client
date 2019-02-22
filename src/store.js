@@ -46,6 +46,9 @@ export default new Vuex.Store({
     },
     logout (state) {
       state.username = null
+    },
+    getQues (state, number) {
+      state.ques = number
     }
   },
   actions: {
@@ -179,6 +182,20 @@ export default new Vuex.Store({
       localStorage.removeItem('username')
       alertify.message(`Bye.. 😢😢`)
       commit('logout')
-    }
+    },
+    deleteRoom(id) {
+      db.collection("todos")
+        .doc(id)
+        .delete()
+        .then(function() {
+            router.push({
+              name: 'home'
+            })
+            console.log("Room successfully deleted!");
+        })
+        .catch(function(error) {
+            console.error("Error removing room: ", error);
+        });
+    },
   }
 })
