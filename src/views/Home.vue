@@ -1,33 +1,40 @@
 <template>
-  <div class="home">
-    <newRoom/>
-    <register v-if="!username"/>
-    <waiting/>
-    <img alt="Vue logo" src="../assets/logo.png">
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+  <div class="home vh-100" id="roomList">
+    <div v-if="username">
+      <newRoom/>
+      <waiting /> 
+      <RoomList></RoomList>
+      <room />
+    </div>
+    <div v-else>
+      <register/>
+    </div>
   </div>
 </template>
 
 <script>
 import newRoom from '@/components/formNewRoom.vue'
 import register from '@/components/register.vue'
-import { mapState } from 'vuex'
+import room from '@/components/room.vue'
 import waiting from '@/components/waiting.vue'
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import db from '@/script/config.js'
+import RoomList from '@/components/list.vue'
+import { mapState } from 'vuex'
+import db from "@/script/config.js";
 
 export default {
   name: 'home',
   components: {
     newRoom,
     register,
-    waiting
+    waiting,
+    room,
+    RoomList
   },
   created () {
     if (!localStorage.username) {
       this.$store.dispatch('register', null)
     } else {
+      this.$store.dispatch('getRoomsAct')
       this.$store.dispatch('register', localStorage.username)
     }
   },
@@ -35,4 +42,5 @@ export default {
     'username'
   ])
 }
+    
 </script>

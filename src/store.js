@@ -25,7 +25,7 @@ export default new Vuex.Store({
     register (state, name) {
       state.username = name
     },
-    getRoomsMut(state, data) {
+    getRoomsMut (state, data) {
       state.rooms = data
     }
   },
@@ -57,6 +57,16 @@ export default new Vuex.Store({
         localStorage.setItem('username', name)
         commit('register', name)
       }
+    },
+    getRoomsAct (context) {
+      db.collection('rooms').onSnapshot(querySnapshot => {
+        let rooms = []
+        querySnapshot.forEach(doc => {
+          rooms.push({ id: doc.id, ...doc.data() })
+        })
+        console.log(rooms)
+        context.commit('getRoomsMut', rooms)
+      })
     }
   }
 })
