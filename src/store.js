@@ -18,7 +18,8 @@ export default new Vuex.Store({
     point2: 0,
     username: null,
     statursRoom: false,
-    ques: 0
+    ques: 0,
+    final: false
   },
   mutations: {
     createNewRoom (state, payload) {
@@ -43,6 +44,10 @@ export default new Vuex.Store({
       state.player2 = data.player2
       state.point1 = data.point1
       state.point2 = data.point2
+      state.ques = data.ques
+    },
+    setFinal (state) {
+      state.final = true
     },
     logout (state) {
       state.username = null
@@ -122,7 +127,7 @@ export default new Vuex.Store({
                 .then(() => {
                   console.log('MADSUK')
                   dispatch('getOneRoom', roomId)
-                  commit('setPlayer2', localStorage.username)
+                  commit('setPlayer2', localStorage.getItem('username'))
                 })
               if (roomData.statusRoom) {
                 alert('roomFull')
@@ -133,29 +138,28 @@ export default new Vuex.Store({
           }
         })
     },
-    pluspoint ({ commit }, roomId) {
+    pluspoint ({ commit, dispatch }, roomId) {
       let self = this.state
+      let ques = self.ques + 1
       if (localStorage.getItem('username') === self.player2) {
         console.log('selfplayer2', self.player2)
-        let ques = self.ques + 1
-        self.point2 += 20
+        self.point2 += 10
         db.collection('rooms').doc(roomId)
           .update({
             point2: self.point2,
             ques: ques
           })
-        commit('getQues', ques)
       } else {
         console.log('selfplayer1')
-        let ques = self.ques + 1
-        self.point1 += 20
+        self.point1 += 10
         db.collection('rooms').doc(roomId)
           .update({
             point1: self.point1,
             ques: ques
           })
-        commit('getQues', ques)
       }
+      dispatch('getOneRoom', roomId)
+      commit('getQues', ques)
     },
     getQuestions ({ commit }) {
       let allQuestions = []
@@ -183,19 +187,19 @@ export default new Vuex.Store({
       alertify.message(`Bye.. 😢😢`)
       commit('logout')
     },
-    deleteRoom(id) {
-      db.collection("todos")
+    deleteRoom (context, id) {
+      db.collection('rooms')
         .doc(id)
         .delete()
-        .then(function() {
-            router.push({
-              name: 'home'
-            })
-            console.log("Room successfully deleted!");
+        .then(function () {
+          router.push({
+            name: 'home'
+          })
+          console.log('Room successfully deleted!')
         })
-        .catch(function(error) {
-            console.error("Error removing room: ", error);
-        });
-    },
+        .catch(function (error) {
+          console.error('Error removing room: ', error)
+        })
+    }
   }
 })
