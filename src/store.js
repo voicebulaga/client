@@ -35,12 +35,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-<<<<<<< HEAD
     createNewRoom ({ commit }, room) {
-=======
-    createNewRoom({ commit }, room) {
-      // console.log(`----room`, room)
->>>>>>> list room
       let res = {
         title: room.roomName,
         player1: localStorage.getItem('username'),
@@ -61,11 +56,7 @@ export default new Vuex.Store({
           swal('Oops!', err, 'error')
         })
     },
-<<<<<<< HEAD
     register ({ commit, dispatch }, name) {
-=======
-    register({ commit }, name) {
->>>>>>> list room
       if (name) {
         localStorage.setItem('username', name)
         dispatch('getRoomsAct')

@@ -7,13 +7,10 @@
     <div v-else>
       <register/>
     </div>
-<<<<<<< HEAD
-=======
   <div class="home">
     <newRoom/>
     <register v-if="!username"/>
     <waiting v-if="username"/>
->>>>>>> list room
   </div>
 </template>
 
