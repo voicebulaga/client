@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import db from './script/config'
 // import swal from 'sweetalert'
 import router from '@/router.js'
+import alertify from 'alertifyjs'
 
 Vue.use(Vuex)
 
@@ -41,6 +42,9 @@ export default new Vuex.Store({
       state.player2 = data.player2
       state.point1 = data.point1
       state.point2 = data.point2
+    },
+    logout (state) {
+      state.username = null
     }
   },
   actions: {
@@ -68,7 +72,6 @@ export default new Vuex.Store({
         })
         .catch(function (err) {
           console.log(err)
-          // swal('Oops!', err, 'error')
         })
     },
     register ({ commit, dispatch }, name) {
@@ -76,6 +79,7 @@ export default new Vuex.Store({
         localStorage.setItem('username', name)
         dispatch('getRoomsAct')
         commit('register', name)
+        alertify.message(`Welcome, ${localStorage.username}`)
       }
     },
     getRoomsAct (context) {
@@ -149,6 +153,10 @@ export default new Vuex.Store({
         })
       })
       commit('getQuestions', allQuestions)
+    },
+    logout ({ commit }) {
+      localStorage.removeItem('username')
+      commit('logout')
     }
   }
 })
