@@ -1,5 +1,6 @@
 <template>
     <div class="game-room">
+        <waiting />
         <div class="searchbar container">
             <input v-model="answer" class="search_input form-control" value="" type="text" name="" placeholder="Search..." id="searchTitle">
             <button type="button" class="btn btn-secondary"><i class="fas fa-check-circle"></i></button>
@@ -9,8 +10,12 @@
 </template>
 
 <script>
+import waiting from '@/components/waiting.vue'
 export default {
     name: 'room',
+    components: {
+        waiting
+    },
     data () {
         return {
             answer: ''

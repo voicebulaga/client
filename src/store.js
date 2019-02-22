@@ -67,6 +67,9 @@ export default new Vuex.Store({
         console.log(rooms)
         context.commit('getRoomsMut', rooms)
       })
+    },
+    getOneRoom ({ commit }, id) {
+      
     }
   }
 })

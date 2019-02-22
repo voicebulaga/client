@@ -3,7 +3,6 @@
   <div class="home vh-100" id="roomList">
     <div v-if="username">
       <newRoom/>
-      <waiting /> 
       <RoomList></RoomList>
       <room />
     </div>
@@ -23,7 +22,6 @@
 import newRoom from '@/components/formNewRoom.vue'
 import register from '@/components/register.vue'
 import room from '@/components/room.vue'
-import waiting from '@/components/waiting.vue'
 import RoomList from '@/components/list.vue'
 import { mapState } from 'vuex'
 import db from "@/script/config.js";
@@ -33,7 +31,6 @@ export default {
   components: {
     newRoom,
     register,
-    waiting,
     room,
     RoomList
   },
