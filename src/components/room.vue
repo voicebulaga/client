@@ -129,7 +129,7 @@ export default {
       return val
     },
     ques (val) {
-      if (val == 2) {
+      if (val == this.questions.length) {
         this.$store.commit('setFinal')
       }
     },
