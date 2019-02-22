@@ -9,15 +9,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    rooms: [],
-    roomId: '',
-    questions: '',
-    player1: '',
-    player2: null,
-    point1: 0,
-    point2: 0,
-    username: null,
-    statursRoom: false
+
   },
   mutations: {
     createNewRoom (state, payload) {
