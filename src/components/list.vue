@@ -20,16 +20,16 @@
 </template>
 
 <script>
-    // import db from '@/script/config.js'
-    import { mapState } from 'vuex';
+// import db from '@/script/config.js'
+import { mapState } from 'vuex'
 
-    export default {
-        computed: {
-            ...mapState([
-                'rooms'
-            ])
-        }     
-    }
+export default {
+  computed: {
+    ...mapState([
+      'rooms'
+    ])
+  }
+}
 </script>
 
 <style>
@@ -37,5 +37,3 @@
         color: #64E94F;
     }
 </style>
-
-

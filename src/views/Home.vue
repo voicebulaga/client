@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="home vh-100" id="roomList">
     <div v-if="username">
       <newRoom/>
@@ -9,9 +10,15 @@
     <div v-else>
       <register/>
     </div>
+=======
+  <div class="home">
+    <newRoom/>
+    <register v-if="!username"/>
+    <waiting v-if="username"/>
+>>>>>>> room
   </div>
 </template>
-       
+
 <script>
 import newRoom from '@/components/formNewRoom.vue'
 import register from '@/components/register.vue'
@@ -22,7 +29,7 @@ import { mapState } from 'vuex'
 import db from "@/script/config.js";
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
     newRoom,
     register,
@@ -39,8 +46,8 @@ export default {
     }
   },
   computed: mapState([
-      'username'
-  ]),
+    'username'
+  ])
 }
     
 </script>
