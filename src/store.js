@@ -14,7 +14,8 @@ export default new Vuex.Store({
     player2: '',
     point1: 0,
     point2: 0,
-    username: null
+    username: null,
+    foo: ''
   },
   mutations: {
     createNewRoom (state, payload) {
@@ -27,11 +28,13 @@ export default new Vuex.Store({
     },
     getRoomsMut (state, data) {
       state.rooms = data
+    },
+    setPlayer2 (state, player2) {
+      state.player2 = player2
     }
   },
   actions: {
     createNewRoom ({ commit }, room) {
-      console.log(`----room`, room)
       let res = {
         title: room.roomName,
         player1: localStorage.getItem('username'),
@@ -52,9 +55,10 @@ export default new Vuex.Store({
           swal('Oops!', err, 'error')
         })
     },
-    register ({ commit }, name) {
+    register ({ commit, dispatch }, name) {
       if (name) {
         localStorage.setItem('username', name)
+        dispatch('getRoomsAct')
         commit('register', name)
       }
     },
@@ -67,6 +71,34 @@ export default new Vuex.Store({
         console.log(rooms)
         context.commit('getRoomsMut', rooms)
       })
+    },
+    getOneRoom ({ commit }, id) {
+    },
+    joinRoomAct ({ commit }, roomId) {
+      db
+        .collection('rooms')
+        .doc(roomId)
+        .onSnapshot(function (data) {
+          var roomData = data.data()
+          if (roomData.player2) {
+            console.log('sudah ada player', roomData.player2)
+          } else if (!roomData.player2) {
+            console.log('belum ada player', roomData.player2)
+            db.collection('rooms')
+              .doc(roomId)
+              .update({
+                player2: localStorage.getItem('username'),
+                statusRoom: true
+              })
+              .then(() => {
+                console.log('MADSUK')
+                commit('setPlayer2', localStorage.username)
+              })
+            if (roomData.statusRoom) {
+              alert('roomFull')
+            }
+          }
+        })
     }
   }
 })

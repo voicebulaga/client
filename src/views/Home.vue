@@ -1,21 +1,12 @@
 <template>
-<<<<<<< HEAD
   <div class="home vh-100" id="roomList">
     <div v-if="username">
       <newRoom/>
-      <waiting /> 
       <RoomList></RoomList>
-      <room />
     </div>
     <div v-else>
       <register/>
     </div>
-=======
-  <div class="home">
-    <newRoom/>
-    <register v-if="!username"/>
-    <waiting v-if="username"/>
->>>>>>> room
   </div>
 </template>
 
@@ -23,21 +14,19 @@
 import newRoom from '@/components/formNewRoom.vue'
 import register from '@/components/register.vue'
 import room from '@/components/room.vue'
-import waiting from '@/components/waiting.vue'
 import RoomList from '@/components/list.vue'
 import { mapState } from 'vuex'
-import db from "@/script/config.js";
+import db from '@/script/config.js'
 
 export default {
   name: 'home',
   components: {
     newRoom,
     register,
-    waiting,
     room,
     RoomList
   },
-  created () {
+  mounted () {
     if (!localStorage.username) {
       this.$store.dispatch('register', null)
     } else {
@@ -49,5 +38,5 @@ export default {
     'username'
   ])
 }
-    
+
 </script>

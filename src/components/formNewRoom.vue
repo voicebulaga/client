@@ -18,44 +18,44 @@
 </template>
 
 <script>
-import db from "@/script/config.js";
-import swal from "sweetalert";
-import { mapState } from "vuex";
+import db from '@/script/config.js'
+import swal from 'sweetalert'
+import { mapState } from 'vuex'
 
 export default {
-  name: "newRoom",
-  data() {
+  name: 'newRoom',
+  data () {
     return {
-      roomName: "",
+      roomName: '',
       statusRoom: false,
-      player1: localStorage.getItem("username"),
+      player1: localStorage.getItem('username'),
       point1: 0,
       player2: null,
       point2: 0
-    };
+    }
   },
   methods: {
-    clearName() {
-      this.roomName = "";
+    clearName () {
+      this.roomName = ''
     },
-    handleOk(evt) {
-      evt.preventDefault();
+    handleOk (evt) {
+      evt.preventDefault()
       if (!this.roomName) {
-        swal("Oops!", "Please enter room name", "error");
+        swal('Oops!', 'Please enter room name', 'error')
       } else {
-        this.createRoom();
+        this.createRoom()
       }
     },
-    createRoom: function(val) {
-      console.log(this, `-------- create room`);
-      this.$store.dispatch("createNewRoom", { ...this });
+    createRoom: function (val) {
+      console.log(this, `-------- create room`)
+      this.$store.dispatch('createNewRoom', { ...this })
 
       // clear roomName and close modal
-      this.clearName();
+      this.clearName()
       this.$nextTick(() => {
-        this.$refs.modal.hide();
-      });
+        this.$refs.modal.hide()
+      })
     }
   }
-};
+}
 </script>
